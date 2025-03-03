@@ -1,4 +1,4 @@
-﻿using EventsWebApplication.Core.Interfaces;
+﻿using EventsWebApplication.Application.Interfaces;
 using EventsWebApplication.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,34 +13,49 @@ namespace EventsWebApplication.DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<Category?> GetCategoryByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Category?> GetCategoryByIdAsync(Guid id, CancellationToken ct = default)
         {
             return await _context.Categories
-                .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == id, ct);
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync(CancellationToken cancellationToken = default)
+        public async Task<Category?> GetCategoryByTitleAsync(string title, CancellationToken ct = default)
         {
             return await _context.Categories
-                .ToListAsync(cancellationToken);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Title == title, ct);
         }
 
-        public async Task AddCategoryAsync(Category category, CancellationToken cancellationToken = default)
+        public async Task<List<Category>> GetAllCategoriesAsync(CancellationToken ct = default)
         {
-            await _context.Categories.AddAsync(category, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            return await _context.Categories
+                .AsNoTracking()
+                .ToListAsync(ct);
         }
 
-        public async Task UpdateCategoryAsync(Category category, CancellationToken cancellationToken = default)
+        public async Task AddCategoryAsync(Category category, CancellationToken ct = default)
+        {
+            await _context.Categories.AddAsync(category, ct);
+            await _context.SaveChangesAsync(ct);
+        }
+
+        public async Task UpdateCategoryAsync(Category category, CancellationToken ct = default)
         {
             _context.Categories.Update(category);
-            await _context.SaveChangesAsync(cancellationToken);
+            await _context.SaveChangesAsync(ct);
         }
 
-        public async Task DeleteCategoryAsync(Category category, CancellationToken cancellationToken = default)
+        public async Task DeleteCategoryAsync(Guid id, CancellationToken ct = default)
         {
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync(cancellationToken);
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(c => c.Id == id, ct);
+
+            if (category != null)
+            {
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync(ct);
+            }
         }
     }
 }

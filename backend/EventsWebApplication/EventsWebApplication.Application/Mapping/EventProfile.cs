@@ -20,8 +20,8 @@ namespace EventsWebApplication.Application.Mapping
                 .ForMember(dest => dest.ImagePath, opt => opt.Ignore());
 
             // Entity -> Response
-            CreateMap<Event, EventResponseDto>()
-                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => ))
+            CreateMap<Event, EventReadDto>()
+                .ForMember(dest => dest.CategoryReadDto, opt => opt.MapFrom(src => src.Category))
                 .ForMember(dest => dest.CurrentParticipants, opt => opt.MapFrom(src => src.Participants.Count));
         }
     }
