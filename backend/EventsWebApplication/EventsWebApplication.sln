@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsWebApplication.API", "EventsWebApplication.API\EventsWebApplication.API.csproj", "{251B7FA7-6D24-4DDC-8AA7-7D5B1E887646}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsWebApplication.Core", "EventsWebApplication.Core\EventsWebApplication.Core.csproj", "{B3267604-0C6D-4208-8726-C896BB00233B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsWebApplication.DataAccess", "EventsWebApplication.DataAccess\EventsWebApplication.DataAccess.csproj", "{D5CDFC2E-AE10-4013-A81B-06A88D6DBBDF}"
@@ -21,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{251B7FA7-6D24-4DDC-8AA7-7D5B1E887646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{251B7FA7-6D24-4DDC-8AA7-7D5B1E887646}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{251B7FA7-6D24-4DDC-8AA7-7D5B1E887646}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{251B7FA7-6D24-4DDC-8AA7-7D5B1E887646}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3267604-0C6D-4208-8726-C896BB00233B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B3267604-0C6D-4208-8726-C896BB00233B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3267604-0C6D-4208-8726-C896BB00233B}.Release|Any CPU.ActiveCfg = Release|Any CPU

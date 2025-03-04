@@ -1,3 +1,5 @@
-﻿public record CategoryReadDto(
-    Guid Id,
-    string Title);
+﻿public record CategoryReadDto
+{
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+}

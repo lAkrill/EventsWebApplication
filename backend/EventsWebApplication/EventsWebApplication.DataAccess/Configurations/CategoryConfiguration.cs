@@ -13,6 +13,10 @@ namespace EventsWebApplication.DataAccess.Configurations
             builder
                 .Property(c => c.Title)
                 .IsRequired();
+
+            builder
+                .HasIndex(c => c.Title)
+                .IsUnique();
         }
     }
 }

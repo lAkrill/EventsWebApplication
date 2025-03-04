@@ -1,11 +1,12 @@
-﻿using EventsWebApplication.Core.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
-public record EventCreateDto(
-    string Title,
-    string Description,
-    DateTime Date,
-    string Location,
-    Guid CategoryId,
-    int MaxParticipants,
-    IFormFile? Image);
+public record EventCreateDto
+{
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public DateTime Date { get; set; }
+    public string Location { get; set; }
+    public Guid? CategoryId { get; set; }
+    public int MaxParticipants { get; set; }
+    public IFormFile? Image { get; set; }
+}

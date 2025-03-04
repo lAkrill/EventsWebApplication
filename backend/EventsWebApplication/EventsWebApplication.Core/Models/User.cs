@@ -13,7 +13,7 @@ namespace EventsWebApplication.Core.Models
         public string PasswordHash { get; set; }
         public DateOnly Birthday { get; set; }
         public UserRole Role { get; set; } = UserRole.RegularUser;
-        public List<Participant>? Participants { get; set; }
-        public List<Event>? Events { get; set; }
+        public List<Participant> Participants { get; set; } = new();
+        public List<Event> Events { get; set; } = new();
     }
 }

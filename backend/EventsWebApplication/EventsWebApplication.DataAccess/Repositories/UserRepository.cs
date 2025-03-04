@@ -14,11 +14,10 @@ namespace EventsWebApplication.DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<List<User>> GetAllUsers(CancellationToken ct = default)
+        public async Task<List<User>> GetAllUsersAsync(CancellationToken ct = default)
         {
             return await _context.Users
                 .AsNoTracking()
-                .Include(p => p.Events)
                 .ToListAsync(ct);
         }
 
@@ -26,7 +25,8 @@ namespace EventsWebApplication.DataAccess.Repositories
         {
             return await _context.Users
                 .AsNoTracking()
-                .Include(u => u.Events)
+                .Include(u => u.Participants)
+                    .ThenInclude(p => p.Event)
                 .FirstOrDefaultAsync(u => u.Id == id, ct);
         }
 
@@ -34,7 +34,6 @@ namespace EventsWebApplication.DataAccess.Repositories
         {
             return await _context.Users
                 .AsNoTracking()
-                .Include(u => u.Events)
                 .FirstOrDefaultAsync(u => u.Email == email, ct);
         }
 

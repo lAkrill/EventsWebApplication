@@ -26,6 +26,11 @@ namespace EventsWebApplication.DataAccess.Configurations
                 .IsRequired();
 
             builder
+                .Property(e => e.Location)
+                .HasMaxLength(200)
+                .IsRequired();  
+
+            builder
                 .Property(e => e.MaxParticipants)
                 .IsRequired();
 

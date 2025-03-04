@@ -1,2 +1,4 @@
-﻿public record CategoryCreateDto(
-    string Title);
+﻿ public record CategoryCreateDto
+{
+    public string Title { get; set; }
+}

@@ -1,12 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using EventsWebApplication.Core.Models;
 
 namespace EventsWebApplication.Application.Mapping
 {
-    internal class UserProfile
+    public class UserProfile : Profile
     {
+        public UserProfile()
+        {
+            CreateMap<User, UserReadDto>();
+
+            CreateMap<UserUpdateDto, User>()
+                .ForMember(dest => dest.Participants, opt => opt.Ignore())
+                .ForMember(dest => dest.Events, opt => opt.Ignore());
+
+            CreateMap<UserRegisterDto, User>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Participants, opt => opt.Ignore())
+                .ForMember(dest => dest.Events, opt => opt.Ignore())
+                .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
+
+            CreateMap<User, UserParticipantDto>()
+                .ForMember(dest => dest.ParticipantUserDtos, opt => opt.MapFrom(src => src.Participants));
+        }
     }
 }

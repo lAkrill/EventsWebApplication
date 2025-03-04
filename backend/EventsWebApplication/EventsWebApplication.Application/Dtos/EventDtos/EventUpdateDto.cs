@@ -1,11 +1,15 @@
-﻿using EventsWebApplication.Core.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using System.Text.Json.Serialization;
 
-public record EventUpdateDto(
-    string Title,
-    string Description,
-    DateTime Date,
-    string Location,
-    Guid CategoryId,
-    int MaxParticipants,
-    IFormFile? Image);
+public record EventUpdateDto
+{
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public DateTime Date { get; set; }
+    public string Location { get; set; }
+    public Guid? CategoryId { get; set; }
+    public int MaxParticipants { get; set; }
+    public IFormFile? Image { get; set; }
+    public bool RemoveImage { get; set; }
+}

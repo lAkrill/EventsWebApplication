@@ -17,7 +17,9 @@ namespace EventsWebApplication.DataAccess.Repositories
         {
             return await _context.Events
                 .AsNoTracking()
-                .Include(e => e.Users)
+                .Include(e => e.Category)
+                .Include(e => e.Participants)
+                    .ThenInclude(p=>p.User)
                 .FirstOrDefaultAsync(e => e.Id == id, ct);
         }
 
@@ -25,13 +27,27 @@ namespace EventsWebApplication.DataAccess.Repositories
         {
             return await _context.Events
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Title == title, ct);
+                .FirstOrDefaultAsync(e => e.Title == title);
         }
 
-        public async Task<List<Event>> GetAllEventsAsync(CancellationToken ct = default)
+        public async Task<List<Event>> GetEventsByTitleAsync(string title, int page = 1, int pageSize = 20, CancellationToken ct = default)
         {
             return await _context.Events
                 .AsNoTracking()
+                .Include(e => e.Category)
+                .Where(e => e.Title.Contains(title))
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(ct);
+        }
+
+        public async Task<List<Event>> GetEventsByPageAsync(int page = 1, int pageSize = 20, CancellationToken ct = default)
+        {
+            return await _context.Events
+                .AsNoTracking()
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Include(e => e.Category)
                 .ToListAsync(ct);
         }
 
@@ -39,8 +55,10 @@ namespace EventsWebApplication.DataAccess.Repositories
             DateTime? date,
             string? location,
             Guid? categoryId,
-            CancellationToken ct = default
-        )
+            string? search,
+            int page = 1, 
+            int pageSize = 20,
+            CancellationToken ct = default)
         {
             var query = _context.Events.AsQueryable();
 
@@ -53,7 +71,13 @@ namespace EventsWebApplication.DataAccess.Repositories
             if (categoryId.HasValue)
                 query = query.Where(e => e.CategoryId == categoryId.Value);
 
-            return await query.ToListAsync(ct);
+            if (!string.IsNullOrEmpty(search))
+                query = query.Where(e => e.Title.Contains(search));
+
+            return await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(ct);
         }
 
         public async Task AddEventAsync(Event newEvent, CancellationToken ct = default)
