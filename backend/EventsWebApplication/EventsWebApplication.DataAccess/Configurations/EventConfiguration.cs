@@ -43,11 +43,6 @@ namespace EventsWebApplication.DataAccess.Configurations
                 .HasForeignKey(e => e.CategoryId);
 
             builder
-                .HasMany(e => e.Users)
-                .WithMany(e => e.Events)
-                .UsingEntity<Participant>();
-
-            builder
                 .HasIndex(e => e.Title)
                 .IsUnique();
         }

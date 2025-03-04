@@ -30,6 +30,7 @@ namespace EventsWebApplication.DataAccess.Repositories
                 RegistrationDate = DateTime.Now
             };
             await _context.Participants.AddAsync(participant, ct);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteParticipantAsync(Guid userId, Guid eventId, CancellationToken ct = default)

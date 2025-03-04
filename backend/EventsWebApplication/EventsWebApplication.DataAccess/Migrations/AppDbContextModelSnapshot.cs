@@ -37,7 +37,7 @@ namespace EventsWebApplication.DataAccess.Migrations
                     b.HasIndex("Title")
                         .IsUnique();
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("EventsWebApplication.Core.Models.Event", b =>
@@ -80,7 +80,7 @@ namespace EventsWebApplication.DataAccess.Migrations
                     b.HasIndex("Title")
                         .IsUnique();
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("EventsWebApplication.Core.Models.Participant", b =>
@@ -98,7 +98,7 @@ namespace EventsWebApplication.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Participants");
+                    b.ToTable("Participants", (string)null);
                 });
 
             modelBuilder.Entity("EventsWebApplication.Core.Models.User", b =>
@@ -137,7 +137,7 @@ namespace EventsWebApplication.DataAccess.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("EventsWebApplication.Core.Models.Event", b =>

@@ -10,7 +10,6 @@
         public int MaxParticipants { get; set; }
         public string? ImagePath { get; set; }
         public List<Participant> Participants { get; set; } = new();
-        public List<User> Users { get; set; } = new();
         public Guid? CategoryId { get; set; }
         public Category? Category { get; set; }
     }

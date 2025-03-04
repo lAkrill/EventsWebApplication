@@ -10,14 +10,12 @@ namespace EventsWebApplication.Application.Mapping
             CreateMap<EventCreateDto, Event>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Participants, opt => opt.Ignore())
-                .ForMember(dest => dest.Users, opt => opt.Ignore())
                 .ForMember(dest => dest.Category, opt => opt.Ignore())
                 .ForMember(dest => dest.ImagePath, opt => opt.Ignore());
 
             CreateMap<EventUpdateDto, Event>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Participants, opt => opt.Ignore())
-                .ForMember(dest => dest.Users, opt => opt.Ignore())
                 .ForMember(dest => dest.Category, opt => opt.Ignore())
                 .ForMember(dest => dest.ImagePath, opt => opt.Ignore());
 
