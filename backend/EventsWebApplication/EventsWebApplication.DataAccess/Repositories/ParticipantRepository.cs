@@ -1,4 +1,4 @@
-﻿using EventsWebApplication.Core.Interfaces;
+﻿using EventsWebApplication.Application.Interfaces;
 using EventsWebApplication.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,29 +13,35 @@ namespace EventsWebApplication.DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<Participant?> GetParticipantByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Participant?> GetParticipantAsync(Guid userId, Guid eventId, CancellationToken ct = default)
         {
             return await _context.Participants
-                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+                .AsNoTracking()
+                .Include(p => p.Event)
+                .FirstOrDefaultAsync(p => p.EventId == eventId && p.UserId == userId, ct);
         }
 
-        public async Task<IEnumerable<Participant>> GetParticipantsByEventIdAsync(Guid eventId, CancellationToken cancellationToken = default)
+        public async Task AddParticipantAsync(Guid userId, Guid eventId, CancellationToken ct = default)
         {
-            return await _context.Participants
-                .Where(p => p.EventId == eventId)
-                .ToListAsync(cancellationToken);
+            var participant = new Participant()
+            {
+                EventId = eventId,
+                UserId = userId,
+                RegistrationDate = DateTime.Now
+            };
+            await _context.Participants.AddAsync(participant, ct);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task AddParticipantAsync(Participant participant, CancellationToken cancellationToken = default)
+        public async Task DeleteParticipantAsync(Guid userId, Guid eventId, CancellationToken ct = default)
         {
-            await _context.Participants.AddAsync(participant, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
-
-        public async Task RemoveParticipantAsync(Participant participant, CancellationToken cancellationToken = default)
-        {
-            _context.Participants.Remove(participant);
-            await _context.SaveChangesAsync(cancellationToken);
+            var participant = await _context.Participants
+                .FirstOrDefaultAsync(p => p.EventId == eventId && p.UserId == userId, ct);
+            if (participant != null)
+            {
+                _context.Participants.Remove(participant);
+                await _context.SaveChangesAsync(ct);
+            }
         }
     }
 }
