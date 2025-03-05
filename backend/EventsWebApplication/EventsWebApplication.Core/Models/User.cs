@@ -14,5 +14,7 @@ namespace EventsWebApplication.Core.Models
         public DateOnly Birthday { get; set; }
         public UserRole Role { get; set; } = UserRole.RegularUser;
         public List<Participant> Participants { get; set; } = new();
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiry { get; set; }
     }
 }

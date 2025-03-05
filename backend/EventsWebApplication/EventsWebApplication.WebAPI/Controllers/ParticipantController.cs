@@ -1,4 +1,5 @@
 ﻿using EventsWebApplication.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventsWebApplication.WebAPI.Controllers
@@ -14,6 +15,7 @@ namespace EventsWebApplication.WebAPI.Controllers
             _participantService = participantService;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateUser(Guid userId, Guid eventId, CancellationToken ct = default)
         {
@@ -21,6 +23,7 @@ namespace EventsWebApplication.WebAPI.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpDelete("{userId}&{eventId}")]
         public async Task<IActionResult> DeleteUser(Guid userId, Guid eventId, CancellationToken ct = default)
         {

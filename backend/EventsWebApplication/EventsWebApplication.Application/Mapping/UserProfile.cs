@@ -10,12 +10,13 @@ namespace EventsWebApplication.Application.Mapping
             CreateMap<User, UserReadDto>();
 
             CreateMap<UserUpdateDto, User>()
-                .ForMember(dest => dest.Participants, opt => opt.Ignore());
+                .ForMember(dest => dest.Participants, opt => opt.Ignore())
+                .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
 
             CreateMap<UserRegisterDto, User>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Participants, opt => opt.Ignore())
-                .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
+                .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
 
             CreateMap<User, UserParticipantDto>()
                 .ForMember(dest => dest.ParticipantUserDtos, opt => opt.MapFrom(src => src.Participants));
