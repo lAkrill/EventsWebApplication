@@ -38,7 +38,7 @@ namespace EventsWebApplication.Application.Services
         {
             if(page <1 || pageSize < 1)
             {
-                throw new InvalidPaginationException("Page number and page size must be greater then 1");
+                throw new InvalidPaginationException("Page number and page size must be greater than 1");
             }
 
             var events = await _eventRepository.GetEventsByTitleAsync(title, page, pageSize, ct);
@@ -62,7 +62,7 @@ namespace EventsWebApplication.Application.Services
         {
             if (page < 1 || pageSize < 1)
             {
-                throw new InvalidPaginationException("Page number and page size must be greater then 1");
+                throw new InvalidPaginationException("Page number and page size must be greater thn 1");
             }
 
             var events = await _eventRepository.GetEventsByPageAsync(page, pageSize, ct);
@@ -140,7 +140,7 @@ namespace EventsWebApplication.Application.Services
         {
             if (criteria.Page < 1 || criteria.PageSize < 1)
             {
-                throw new InvalidPaginationException("Page number and page size must be greater then 1");
+                throw new InvalidPaginationException("Page number and page size must be greater than 1");
             }
 
             var eventList = await _eventRepository.GetEventsByCriteriaAsync(criteria.Date, 
@@ -153,7 +153,7 @@ namespace EventsWebApplication.Application.Services
             
             if(eventList == null)
             {
-                throw new NotFoundException($"Events not found with this filter");
+                throw new NotFoundException($"Events not found using this filter");
             }
 
             return _mapper.Map<List<EventReadDto>>(eventList);

@@ -19,7 +19,7 @@ namespace EventsWebApplication.Application.Validators.Events
                 .EventMaxParticipants();
 
             RuleFor(e => e.Date)
-                .Must(BeAValidDate).WithMessage("Events should happen in future");
+                .Must(BeAValidDate).WithMessage("Events should happen in the future");
 
             RuleFor(e => e.Image)
                 .Must(i =>
@@ -28,6 +28,10 @@ namespace EventsWebApplication.Application.Validators.Events
                     var extensions = new[] { ".jpg", ".jpeg", ".png" };
                     return extensions.Contains(extension);
                 }).WithMessage("Image must be with one of the following extensions: .jpg, .jpeg, .png")
+                .When(e => e.Image != null);
+
+            RuleFor(e => e.RemoveImage)
+                .Must(b => b).WithMessage("Previous image must be deleted when adding new one")
                 .When(e => e.Image != null);
         }
         private bool BeAValidDate(DateTime date)

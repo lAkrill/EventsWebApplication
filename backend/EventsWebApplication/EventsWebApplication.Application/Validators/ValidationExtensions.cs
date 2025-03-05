@@ -61,7 +61,7 @@ namespace EventsWebApplication.Application.Validators
         public static IRuleBuilderOptions<T, int> EventMaxParticipants<T>(this IRuleBuilder<T, int> ruleBuilder)
         {
             return ruleBuilder
-                .GreaterThan(0).WithMessage("Quantity should be greater than 0");
+                .GreaterThan(0).WithMessage("Max participants count should be greater than 0");
         }
     }
 }

@@ -19,7 +19,7 @@ namespace EventsWebApplication.Application.Validators.Events
                 .EventMaxParticipants();
 
             RuleFor(e => e.Date)
-                .Must(BeAValidDate).WithMessage("Events should happen in future");
+                .Must(BeAValidDate).WithMessage("Events should happen in the future");
 
             RuleFor(e => e.Image)
                 .Must(i =>
