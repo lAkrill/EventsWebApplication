@@ -1,4 +1,4 @@
-﻿namespace EventsWebApplication.Infrastructure
+﻿namespace EventsWebApplication.DataAccess.Algorithms
 {
     public class JwtSettings
     {

@@ -49,35 +49,24 @@ namespace EventsWebApplication.Application.Services
             return await CreateTokenResponse(user);
         }
 
-        private async Task<TokenResponseDto> CreateTokenResponse(User? user)
+        public async Task<UserReadDto> ChangeUserRoleAsync(UserRoleDto userRoleDto, CancellationToken ct)
         {
-            return new TokenResponseDto
+            if (userRoleDto == null)
             {
-                AccessToken = _tokenService.GenerateJwtToken(user),
-                RefreshToken = await GenerateAndSaveRefreshTokenAsync(user)
-            };
-        }
-
-        private async Task<string> GenerateAndSaveRefreshTokenAsync(User user)
-        {
-            var refreshToken = _tokenService.GenerateRefreshToken();
-            user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
-            await _userRepository.UpdateUserAsync(user);
-            return refreshToken;
-        }
-
-        private async Task<User?> ValidateRefreshTokenAsync(Guid userId, string refreshToken)
-        {
-            var user = await _userRepository.GetUserByIdAsync(userId);
-            if (user is null || user.RefreshToken != refreshToken
-                || user.RefreshTokenExpiry <= DateTime.UtcNow)
-            {
-                return null;
+                throw new ArgumentNullException(nameof(userRoleDto));
             }
-            return user;
-        }
 
+            var existingUser = await _userRepository.GetUserByIdAsync(userRoleDto.Id, ct);
+            if (existingUser == null)
+            {
+                throw new NotFoundException($"User not found with id: {userRoleDto.Id}");
+            }
+
+            existingUser.Role = userRoleDto.Role;
+            
+            await _userRepository.UpdateUserAsync(existingUser, ct);
+            return _mapper.Map<UserReadDto>(existingUser);
+        }
 
         public async Task<List<UserReadDto>> GetAllUsersAsync(CancellationToken ct)
         {
@@ -158,6 +147,36 @@ namespace EventsWebApplication.Application.Services
             }
 
             await _userRepository.DeleteUserAsync(id, ct);
+        }
+
+
+        private async Task<TokenResponseDto> CreateTokenResponse(User? user)
+        {
+            return new TokenResponseDto
+            {
+                AccessToken = _tokenService.GenerateJwtToken(user),
+                RefreshToken = await GenerateAndSaveRefreshTokenAsync(user)
+            };
+        }
+
+        private async Task<string> GenerateAndSaveRefreshTokenAsync(User user)
+        {
+            var refreshToken = _tokenService.GenerateRefreshToken();
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+            await _userRepository.UpdateUserAsync(user);
+            return refreshToken;
+        }
+
+        private async Task<User?> ValidateRefreshTokenAsync(Guid userId, string refreshToken)
+        {
+            var user = await _userRepository.GetUserByIdAsync(userId);
+            if (user is null || user.RefreshToken != refreshToken
+                || user.RefreshTokenExpiry <= DateTime.UtcNow)
+            {
+                return null;
+            }
+            return user;
         }
     }
 }

@@ -13,6 +13,10 @@ namespace EventsWebApplication.Application.Mapping
                 .ForMember(dest => dest.Participants, opt => opt.Ignore())
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
 
+            CreateMap<UserRoleDto, User>()
+                .ForMember(dest => dest.Participants, opt => opt.Ignore())
+                .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
+
             CreateMap<UserRegisterDto, User>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Participants, opt => opt.Ignore())

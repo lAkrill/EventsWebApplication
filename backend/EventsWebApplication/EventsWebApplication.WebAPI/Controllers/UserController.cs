@@ -16,7 +16,7 @@ namespace EventsWebApplication.WebAPI.Controllers
             _userService = userService;
         }
 
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers(CancellationToken ct = default)
         {
@@ -29,6 +29,15 @@ namespace EventsWebApplication.WebAPI.Controllers
         public async Task<IActionResult> GetUserById(Guid id, CancellationToken ct = default)
         {
             var user = await _userService.GetUserByIdAsync(id, ct);
+            return Ok(user);
+        }
+
+        [Authorize]
+        [HttpPut("{id}/role")]
+        public async Task<IActionResult> ChangeRole(Guid id, UserRoleDto userRoleDto, CancellationToken ct = default)
+        {
+            userRoleDto.Id = id;
+            var user = await _userService.ChangeUserRoleAsync(userRoleDto, ct);
             return Ok(user);
         }
 

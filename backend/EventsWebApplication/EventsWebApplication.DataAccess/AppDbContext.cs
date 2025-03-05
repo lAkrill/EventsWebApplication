@@ -1,7 +1,6 @@
-﻿using Azure;
-using EventsWebApplication.Core.Models;
+﻿using EventsWebApplication.Core.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using EventsWebApplication.DataAccess.Algorithms;
 
 namespace EventsWebApplication.DataAccess
 {
@@ -19,6 +18,19 @@ namespace EventsWebApplication.DataAccess
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>().HasData(
+                new User()
+                {
+                    Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                    FirstName = "admin",
+                    LastName = "admin",
+                    Email = "admin@admin.com",
+                    PasswordHash = new PasswordHasher().Hash("admin"),
+                    Birthday = DateOnly.FromDateTime(DateTime.UtcNow),
+                    Role = UserRole.Admin
+                }
+            );
         }
     }
 }

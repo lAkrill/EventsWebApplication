@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using EventsWebApplication.Application.Interfaces;
 using EventsWebApplication.Core.Models;
+using EventsWebApplication.DataAccess.Algorithms;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
