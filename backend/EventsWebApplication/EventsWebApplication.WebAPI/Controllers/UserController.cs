@@ -1,9 +1,4 @@
-﻿using EventsWebApplication.Application.Dtos;
-using EventsWebApplication.Application.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace EventsWebApplication.WebAPI.Controllers
+﻿namespace EventsWebApplication.WebAPI.Controllers
 {
     [Route("api/user")]
     [ApiController]

@@ -1,26 +1,17 @@
-using EventsWebApplication.Application.Interfaces;
-using EventsWebApplication.Application.Mapping;
-using EventsWebApplication.Application.Services;
-using EventsWebApplication.DataAccess;
-using EventsWebApplication.DataAccess.Algorithms;
-using EventsWebApplication.DataAccess.Repositories;
-using EventsWebApplication.Infrastructure;
-using EventsWebApplication.WebAPI.Middleware;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("Default"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,               
+            maxRetryDelay: TimeSpan.FromSeconds(30), 
+            errorNumbersToAdd: null      
+        )
+    )
+);
+
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
@@ -95,7 +86,7 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer",
         In = ParameterLocation.Header,
-        Description = "¬ведите JWT-токен в формате: Bearer {ваш_токен}"
+        Description = "Enter your JWT token in the format: Bearer YOUR_TOKEN"
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -115,6 +106,13 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate(); 
+}
+
 
 var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "Uploads");
 if (!Directory.Exists(uploadsPath))
