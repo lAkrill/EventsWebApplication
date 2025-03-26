@@ -1,6 +1,6 @@
 ﻿using EventsWebApplication.Core.Models;
 
-namespace EventsWebApplication.Application.Interfaces
+namespace EventsWebApplication.Core.Interfaces
 {
     public interface ICategoryRepository
     {

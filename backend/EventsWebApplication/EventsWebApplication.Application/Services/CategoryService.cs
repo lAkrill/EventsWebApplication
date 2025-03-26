@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EventsWebApplication.Application.Exceptions;
-using EventsWebApplication.Application.Interfaces;
+using EventsWebApplication.Core.Interfaces;
 using EventsWebApplication.Core.Models;
 
 namespace EventsWebApplication.Application.Services

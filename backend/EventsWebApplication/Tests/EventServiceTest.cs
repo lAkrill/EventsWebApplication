@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EventsWebApplication.Application.Exceptions;
-using EventsWebApplication.Application.Interfaces;
 using EventsWebApplication.Application.Services;
+using EventsWebApplication.Core.Interfaces;
 using EventsWebApplication.Core.Models;
 using Moq;
 

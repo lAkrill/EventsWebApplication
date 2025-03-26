@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using EventsWebApplication.Application.Interfaces;
+using EventsWebApplication.Core.Interfaces;
 using EventsWebApplication.Core.Models;
 using EventsWebApplication.DataAccess.Algorithms;
 using Microsoft.Extensions.Options;
