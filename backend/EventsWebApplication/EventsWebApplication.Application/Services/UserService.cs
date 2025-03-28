@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EventsWebApplication.Application.Dtos;
 using EventsWebApplication.Application.Exceptions;
-using EventsWebApplication.Application.Interfaces;
+using EventsWebApplication.Core.Interfaces;
 using EventsWebApplication.Core.Models;
 using MediatR;
 
@@ -146,7 +146,7 @@ namespace EventsWebApplication.Application.Services
                 throw new NotFoundException($"User not found with id: {id}");
             }
 
-            await _userRepository.DeleteUserAsync(id, ct);
+            await _userRepository.DeleteUserAsync(deletedUser, ct);
         }
 
 

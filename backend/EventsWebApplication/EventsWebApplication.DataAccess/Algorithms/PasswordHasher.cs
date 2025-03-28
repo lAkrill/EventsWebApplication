@@ -1,4 +1,4 @@
-﻿using EventsWebApplication.Application.Interfaces;
+﻿using EventsWebApplication.Core.Interfaces;
 
 namespace EventsWebApplication.DataAccess.Algorithms
 {

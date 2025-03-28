@@ -2,7 +2,7 @@
 {
     [Route("api/category")]
     [ApiController]
-    public class CategoryController : Controller
+    public class CategoryController : ControllerBase
     {
         private readonly CategoryService _categoryService;
 
@@ -49,7 +49,7 @@
         public async Task<IActionResult> DeleteCategory(Guid id, CancellationToken ct = default)
         {
             await _categoryService.DeleteCategoryByIdAsync(id, ct);
-            return Ok();
+            return NoContent();
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     [Route("api/participant")]
     [ApiController]
-    public class ParticipantController : Controller
+    public class ParticipantController : ControllerBase
     {
         private readonly ParticipantService _participantService;
 
@@ -24,7 +24,7 @@
         public async Task<IActionResult> DeleteUser(Guid userId, Guid eventId, CancellationToken ct = default)
         {
             await _participantService.DeleteParticipantAsync(userId, eventId, ct);
-            return Ok();
+            return NoContent();
         }
     }
 }

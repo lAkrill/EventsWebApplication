@@ -1,4 +1,3 @@
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -75,6 +74,8 @@ builder.Services.AddScoped<IFileStorageService>(provider =>
 builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 
 builder.Services.AddOpenApi();
+
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {

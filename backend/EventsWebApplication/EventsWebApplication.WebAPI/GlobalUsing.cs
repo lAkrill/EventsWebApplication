@@ -1,4 +1,4 @@
-﻿global using EventsWebApplication.Application.Interfaces;
+﻿global using EventsWebApplication.Core.Interfaces;
 global using EventsWebApplication.Application.Mapping;
 global using EventsWebApplication.Application.Services;
 global using EventsWebApplication.DataAccess;
@@ -18,3 +18,4 @@ global using System.Text;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 global using EventsWebApplication.Application.Dtos;
+global using EventsWebApplication.Application.Dtos.EventDtos;

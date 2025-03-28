@@ -1,4 +1,4 @@
-﻿using EventsWebApplication.Application.Interfaces;
+﻿using EventsWebApplication.Core.Interfaces;
 using EventsWebApplication.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,15 +49,10 @@ namespace EventsWebApplication.DataAccess.Repositories
             await _context.SaveChangesAsync(ct);
         }
 
-        public async Task DeleteUserAsync(Guid id, CancellationToken ct = default)
+        public async Task DeleteUserAsync(User user, CancellationToken ct = default)
         {
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Id == id, ct);
-            if (user != null)
-            {
-                _context.Users.Remove(user);
-                await _context.SaveChangesAsync(ct);
-            }
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync(ct);
         }
     }
 }

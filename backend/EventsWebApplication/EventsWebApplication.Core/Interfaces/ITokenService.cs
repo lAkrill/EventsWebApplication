@@ -1,7 +1,6 @@
 ﻿using EventsWebApplication.Core.Models;
-using System.Security.Claims;
 
-namespace EventsWebApplication.Application.Interfaces
+namespace EventsWebApplication.Core.Interfaces
 {
     public interface ITokenService
     {
