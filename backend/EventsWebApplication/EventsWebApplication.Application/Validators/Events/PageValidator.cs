@@ -11,7 +11,7 @@ namespace EventsWebApplication.Application.Validators.Events
                 .Must(page => page > 0).WithMessage("Page number can't be less than 1");
 
             RuleFor(e => e.PageSize)
-                .Must(pageSize => pageSize > 0).WithMessage("Page size can't be less than 1");
+                .InclusiveBetween(1, 100).WithMessage("Page size must be between 1 and 100");
         }
     }
 }

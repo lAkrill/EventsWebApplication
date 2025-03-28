@@ -18,3 +18,4 @@ global using System.Text;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 global using EventsWebApplication.Application.Dtos;
+global using EventsWebApplication.Application.Dtos.EventDtos;

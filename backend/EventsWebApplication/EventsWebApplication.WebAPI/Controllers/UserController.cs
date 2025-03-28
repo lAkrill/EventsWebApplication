@@ -2,7 +2,7 @@
 {
     [Route("api/user")]
     [ApiController]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private readonly UserService _userService;
 
@@ -83,7 +83,7 @@
         public async Task<IActionResult> DeleteUser(Guid id, CancellationToken ct = default)
         {
             await _userService.DeleteUserByIdAsync(id, ct);
-            return Ok();
+            return NoContent();
         }
     }
 }

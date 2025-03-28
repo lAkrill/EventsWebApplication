@@ -259,7 +259,7 @@ namespace Tests
             _mockRepo.Setup(repo => repo.GetEventByIdAsync(eventId, It.IsAny<CancellationToken>()))
                      .ReturnsAsync(existingEvent);
 
-            _mockRepo.Setup(repo => repo.DeleteEventAsync(eventId, It.IsAny<CancellationToken>()))
+            _mockRepo.Setup(repo => repo.DeleteEventAsync(existingEvent, It.IsAny<CancellationToken>()))
                      .Returns(Task.CompletedTask)
                      .Verifiable();
 
@@ -267,7 +267,7 @@ namespace Tests
 
             await service.DeleteEventByIdAsync(eventId);
 
-            _mockRepo.Verify(repo => repo.DeleteEventAsync(eventId, It.IsAny<CancellationToken>()), Times.Once);
+            _mockRepo.Verify(repo => repo.DeleteEventAsync(existingEvent, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]

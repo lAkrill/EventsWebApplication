@@ -2,7 +2,7 @@
 {
     [Route("api/event")]
     [ApiController]
-    public class EventController : Controller
+    public class EventController : ControllerBase
     {
         private readonly EventService _eventService;
 
@@ -12,10 +12,10 @@
         }
 
         [Authorize]
-        [HttpGet("{pageNumber}&{pageSize}")]
-        public async Task<IActionResult> GetAllUsers(int pageNumber, int pageSize, CancellationToken ct = default)
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllUsers([FromQuery] PageDto pageDto, CancellationToken ct = default)
         {
-            var events = await _eventService.GetAllEventsAsync(pageNumber, pageSize, ct);
+            var events = await _eventService.GetAllEventsAsync(pageDto, ct);
             return Ok(events);
         }
 
@@ -36,7 +36,7 @@
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("filter")]
         public async Task<IActionResult> GetEventsByfilter([FromQuery] EventFilterDto eventFilterDto, CancellationToken ct = default)
         {
             var events = await _eventService.GetEventsByCriteriaAsync(eventFilterDto, ct);
@@ -44,10 +44,10 @@
         }
 
         [Authorize]
-        [HttpGet("title/{title}&{pageNumber}&{pageSize}")]
-        public async Task<IActionResult> GetEventsByTitle(string title,int pageNumber, int pageSize, CancellationToken ct = default)
+        [HttpGet("title/{title}")]
+        public async Task<IActionResult> GetEventsByTitle([FromRoute] string title, [FromQuery] PageDto pageDto, CancellationToken ct = default)
         {
-            var events = await _eventService.GetEventsByTitleAsync(title, pageNumber, pageSize, ct);
+            var events = await _eventService.GetEventsByTitleAsync(title, pageDto, ct);
             return Ok(events);
         }
 
@@ -72,7 +72,7 @@
         public async Task<IActionResult> DeleteEvent(Guid id, CancellationToken ct = default)
         {
             await _eventService.DeleteEventByIdAsync(id, ct);
-            return Ok();
+            return NoContent();
         }
     }
 }

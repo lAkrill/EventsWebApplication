@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EventsWebApplication.Application.Dtos.EventDtos;
 using EventsWebApplication.Application.Exceptions;
 using EventsWebApplication.Core.Interfaces;
 using EventsWebApplication.Core.Models;
@@ -32,16 +33,10 @@ namespace EventsWebApplication.Application.Services
         }
 
         public async Task<List<EventReadDto>> GetEventsByTitleAsync(string title, 
-            int page = 0, 
-            int pageSize = 20, 
+            PageDto pageDto, 
             CancellationToken ct = default)
         {
-            if(page <1 || pageSize < 1)
-            {
-                throw new InvalidPaginationException("Page number and page size must be greater than 1");
-            }
-
-            var events = await _eventRepository.GetEventsByTitleAsync(title, page, pageSize, ct);
+            var events = await _eventRepository.GetEventsByTitleAsync(title, pageDto.Page, pageDto.PageSize, ct);
             return _mapper.Map<List<EventReadDto>>(events);
         }
 
@@ -56,16 +51,10 @@ namespace EventsWebApplication.Application.Services
             return _mapper.Map<EventParticipantDto>(@event);
         }
 
-        public async Task<List<EventReadDto>> GetAllEventsAsync(int page = 1, 
-            int pageSize = 20, 
+        public async Task<List<EventReadDto>> GetAllEventsAsync(PageDto pageDto, 
             CancellationToken ct = default)
         {
-            if (page < 1 || pageSize < 1)
-            {
-                throw new InvalidPaginationException("Page number and page size must be greater thn 1");
-            }
-
-            var events = await _eventRepository.GetEventsByPageAsync(page, pageSize, ct);
+            var events = await _eventRepository.GetEventsByPageAsync(pageDto.Page, pageDto.PageSize, ct);
             return _mapper.Map<List<EventReadDto>>(events);
         }
 
