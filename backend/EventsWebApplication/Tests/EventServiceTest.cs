@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EventsWebApplication.Application.Dtos.EventDtos;
 using EventsWebApplication.Application.Exceptions;
 using EventsWebApplication.Application.Services;
 using EventsWebApplication.Core.Interfaces;
@@ -73,30 +74,22 @@ namespace Tests
         public async Task GetEventsByTitleAsync_ValidPagination_ReturnsListOfEvents()
         {
             var title = "Test";
+            var pageDto = new PageDto { Page = 1, PageSize = 20 };
             var events = new List<Event>
             {
                 new Event { Id = Guid.NewGuid(), Title = "Test event", Description = "Desc", Date = DateTime.UtcNow, Location = "Loc", MaxParticipants = 50 },
                 new Event { Id = Guid.NewGuid(), Title = "Another test", Description = "Desc2", Date = DateTime.UtcNow, Location = "Loc2", MaxParticipants = 100 }
             };
 
-            _mockRepo.Setup(repo => repo.GetEventsByTitleAsync(title, 1, 20, It.IsAny<CancellationToken>()))
+            _mockRepo.Setup(repo => repo.GetEventsByTitleAsync(title, pageDto.Page, pageDto.PageSize, It.IsAny<CancellationToken>()))
                      .ReturnsAsync(events);
 
             var service = new EventService(_mockRepo.Object, _mapper, _mockFileStorage.Object);
 
-            var result = await service.GetEventsByTitleAsync(title, 1, 20);
+            var result = await service.GetEventsByTitleAsync(title, pageDto);
 
             Assert.NotNull(result);
             Assert.Equal(2, result.Count);
-        }
-
-        [Fact]
-        public async Task GetEventsByTitleAsync_InvalidPagination_ThrowsInvalidPaginationException()
-        {
-            var service = new EventService(_mockRepo.Object, _mapper, _mockFileStorage.Object);
-
-            await Assert.ThrowsAsync<InvalidPaginationException>(() => service.GetEventsByTitleAsync("Test", 0, 20));
-            await Assert.ThrowsAsync<InvalidPaginationException>(() => service.GetEventsByTitleAsync("Test", 1, 0));
         }
 
         [Fact]
@@ -122,15 +115,6 @@ namespace Tests
 
             Assert.NotNull(result);
             Assert.Equal(ev.Title, result.Title);
-        }
-
-        [Fact]
-        public async Task GetAllEventsAsync_InvalidPagination_ThrowsInvalidPaginationException()
-        {
-            var service = new EventService(_mockRepo.Object, _mapper, _mockFileStorage.Object);
-
-            await Assert.ThrowsAsync<InvalidPaginationException>(() => service.GetAllEventsAsync(0, 20));
-            await Assert.ThrowsAsync<InvalidPaginationException>(() => service.GetAllEventsAsync(1, 0));
         }
 
         [Fact]
@@ -317,24 +301,6 @@ namespace Tests
 
             Assert.NotNull(result);
             Assert.Single(result);
-        }
-
-        [Fact]
-        public async Task GetEventsByCriteriaAsync_InvalidPagination_ThrowsInvalidPaginationException()
-        {
-            var criteria = new EventFilterDto
-            {
-                Date = null,
-                Location = null,
-                CategoryId = null,
-                SearchQuery = null,
-                Page = 0,
-                PageSize = 0
-            };
-
-            var service = new EventService(_mockRepo.Object, _mapper, _mockFileStorage.Object);
-
-            await Assert.ThrowsAsync<InvalidPaginationException>(() => service.GetEventsByCriteriaAsync(criteria));
         }
     }
 }

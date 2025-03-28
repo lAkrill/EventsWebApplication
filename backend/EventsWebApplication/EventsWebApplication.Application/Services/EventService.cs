@@ -127,11 +127,6 @@ namespace EventsWebApplication.Application.Services
         public async Task<List<EventReadDto>> GetEventsByCriteriaAsync(EventFilterDto criteria,
             CancellationToken ct = default)
         {
-            if (criteria.Page < 1 || criteria.PageSize < 1)
-            {
-                throw new InvalidPaginationException("Page number and page size must be greater than 1");
-            }
-
             var eventList = await _eventRepository.GetEventsByCriteriaAsync(criteria.Date, 
                 criteria.Location,
                 criteria.CategoryId,

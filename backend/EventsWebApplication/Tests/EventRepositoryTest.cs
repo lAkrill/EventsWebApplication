@@ -3,7 +3,7 @@ using EventsWebApplication.DataAccess;
 using EventsWebApplication.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace EventsWebApplication.Tests.DataAccess
+namespace Tests
 {
     
 
