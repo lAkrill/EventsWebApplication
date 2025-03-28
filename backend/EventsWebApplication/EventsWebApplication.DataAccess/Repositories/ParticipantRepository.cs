@@ -21,27 +21,16 @@ namespace EventsWebApplication.DataAccess.Repositories
                 .FirstOrDefaultAsync(p => p.EventId == eventId && p.UserId == userId, ct);
         }
 
-        public async Task AddParticipantAsync(Guid userId, Guid eventId, CancellationToken ct = default)
+        public async Task AddParticipantAsync(Participant participant, CancellationToken ct = default)
         {
-            var participant = new Participant()
-            {
-                EventId = eventId,
-                UserId = userId,
-                RegistrationDate = DateTime.Now
-            };
             await _context.Participants.AddAsync(participant, ct);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteParticipantAsync(Guid userId, Guid eventId, CancellationToken ct = default)
+        public async Task DeleteParticipantAsync(Participant participant, CancellationToken ct = default)
         {
-            var participant = await _context.Participants
-                .FirstOrDefaultAsync(p => p.EventId == eventId && p.UserId == userId, ct);
-            if (participant != null)
-            {
-                _context.Participants.Remove(participant);
-                await _context.SaveChangesAsync(ct);
-            }
+            _context.Participants.Remove(participant);
+            await _context.SaveChangesAsync(ct);
         }
     }
 }

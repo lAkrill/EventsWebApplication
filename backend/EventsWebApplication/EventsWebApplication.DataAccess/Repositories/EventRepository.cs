@@ -19,7 +19,7 @@ namespace EventsWebApplication.DataAccess.Repositories
                 .AsNoTracking()
                 .Include(e => e.Category)
                 .Include(e => e.Participants)
-                    .ThenInclude(p=>p.User)
+                    .ThenInclude(p => p.User)
                 .FirstOrDefaultAsync(e => e.Id == id, ct);
         }
 
@@ -56,7 +56,7 @@ namespace EventsWebApplication.DataAccess.Repositories
             string? location,
             Guid? categoryId,
             string? search,
-            int page = 1, 
+            int page = 1,
             int pageSize = 20,
             CancellationToken ct = default)
         {
@@ -92,15 +92,10 @@ namespace EventsWebApplication.DataAccess.Repositories
             await _context.SaveChangesAsync(ct);
         }
 
-        public async Task DeleteEventAsync(Guid id, CancellationToken ct = default)
+        public async Task DeleteEventAsync(Event deletedEvent, CancellationToken ct = default)
         {
-            var deletedEvent = await _context.Events
-                .FirstOrDefaultAsync(e => e.Id == id);
-            if (deletedEvent != null)
-            {
-                _context.Events.Remove(deletedEvent);
-                await _context.SaveChangesAsync(ct);
-            }
+            _context.Events.Remove(deletedEvent);
+            await _context.SaveChangesAsync(ct);
         }
     }
 }

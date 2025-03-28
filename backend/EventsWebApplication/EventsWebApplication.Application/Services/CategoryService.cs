@@ -79,7 +79,7 @@ namespace EventsWebApplication.Application.Services
                 throw new NotFoundException($"Category not found with id: {id}");
             }
 
-            await _categoryRepository.DeleteCategoryAsync(id, ct);
+            await _categoryRepository.DeleteCategoryAsync(category, ct);
         }
     }
 }

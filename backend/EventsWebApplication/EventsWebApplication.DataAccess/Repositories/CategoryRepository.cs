@@ -46,16 +46,10 @@ namespace EventsWebApplication.DataAccess.Repositories
             await _context.SaveChangesAsync(ct);
         }
 
-        public async Task DeleteCategoryAsync(Guid id, CancellationToken ct = default)
+        public async Task DeleteCategoryAsync(Category category, CancellationToken ct = default)
         {
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(c => c.Id == id, ct);
-
-            if (category != null)
-            {
-                _context.Categories.Remove(category);
-                await _context.SaveChangesAsync(ct);
-            }
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync(ct);
         }
     }
 }

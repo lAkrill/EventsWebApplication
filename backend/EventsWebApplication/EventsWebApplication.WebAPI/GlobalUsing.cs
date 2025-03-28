@@ -1,4 +1,4 @@
-﻿global using EventsWebApplication.Application.Interfaces;
+﻿global using EventsWebApplication.Core.Interfaces;
 global using EventsWebApplication.Application.Mapping;
 global using EventsWebApplication.Application.Services;
 global using EventsWebApplication.DataAccess;

@@ -56,7 +56,7 @@ namespace EventsWebApplication.Application.Services
             return _mapper.Map<EventParticipantDto>(@event);
         }
 
-        public async Task<List<EventReadDto>> GetAllEventsAsync(int page = 0, 
+        public async Task<List<EventReadDto>> GetAllEventsAsync(int page = 1, 
             int pageSize = 20, 
             CancellationToken ct = default)
         {
@@ -132,7 +132,7 @@ namespace EventsWebApplication.Application.Services
                 throw new NotFoundException($"Event not found with id: {id}");
             }
 
-            await _eventRepository.DeleteEventAsync(id, ct);
+            await _eventRepository.DeleteEventAsync(deletedEvent, ct);
         }
 
         public async Task<List<EventReadDto>> GetEventsByCriteriaAsync(EventFilterDto criteria,
